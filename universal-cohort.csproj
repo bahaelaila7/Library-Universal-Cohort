@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <RootNamespace>Landis.Library.Cohorts</RootNamespace>
-    <AssemblyName>Landis.Library.Cohorts-v2</AssemblyName>
+    <RootNamespace>Landis.Library.UniversalCohorts</RootNamespace>
+    <AssemblyName>Landis.Library.UniversalCohorts-v1</AssemblyName>
     <AssemblyTitle>Landis.Library.Cohorts-v2</AssemblyTitle>
     <AssemblyCompany>LANDIS-II Foundation</AssemblyCompany>
     <AssemblyProduct>Landis.Library.Cohorts-v2</AssemblyProduct>    
@@ -23,9 +23,8 @@
     <PackageReleaseNotes>.NET Standard 2.0 update.</PackageReleaseNotes>
     <FileVersion>2.0</FileVersion>
   </PropertyGroup>
-  
   <ItemGroup>
-    <PackageReference Include="Landis.Core" Version="2.0.0" />
+    <PackageReference Include="Landis.Core" Version="3.0.0" />
   </ItemGroup>
 
 </Project>

@@ -1,7 +1,7 @@
 using Landis.Core;
 using System.Collections.Generic;
 
-namespace Landis.Library.Cohorts
+namespace Landis.Library.UniversalCohorts
 {
 	/// <summary>
 	/// All the cohorts at a site.

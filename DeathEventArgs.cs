@@ -1,6 +1,6 @@
 using Landis.SpatialModeling;
 
-namespace Landis.Library.Cohorts
+namespace Landis.Library.UniversalCohorts
 {
     /// <summary>
     /// Information about a cohort's death.
