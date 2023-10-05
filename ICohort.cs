@@ -1,4 +1,5 @@
 using Landis.Core;
+using Landis.SpatialModeling;
 
 namespace Landis.Library.UniversalCohorts
 {
@@ -14,5 +15,34 @@ namespace Landis.Library.UniversalCohorts
         {
             get;
         }
+        //---------------------------------------------------------------------
+        CohortData Data
+        {
+            get;
+        }
+
+        //---------------------------------------------------------------------
+        /// <summary>
+        /// Computes how much of the cohort's biomass is non-woody.
+        /// </summary>
+        /// <param name="site">
+        /// The site where the cohort is located.
+        /// </param>
+        int ComputeNonWoodyBiomass(ActiveSite site);
+        //---------------------------------------------------------------------
+        /// <summary>
+        /// Increments the cohort's age by one year.
+        /// </summary>
+        void IncrementAge();
+        //---------------------------------------------------------------------
+        /// <summary>
+        /// Changes the cohort's ANPP
+        /// </summary>
+        /// <param name="newForage"></param>
+        /// <returns></returns>
+        void ChangeANPP(int anpp);
+        //---------------------------------------------------------------------
+        void ChangeBiomass(int delta);
+        //---------------------------------------------------------------------
     }
 }

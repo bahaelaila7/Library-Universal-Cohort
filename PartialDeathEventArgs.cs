@@ -1,3 +1,5 @@
+//  Authors:  Robert M. Scheller, James B. Domingo
+
 using Landis.Core;
 using Landis.SpatialModeling;
 
@@ -6,12 +8,12 @@ namespace Landis.Library.UniversalCohorts
     /// <summary>
     /// Information about a cohort's death.
     /// </summary>
-    public class DeathEventArgs
-        : System.EventArgs
+    public class PartialDeathEventArgs
     {
         private ICohort cohort;
         private ActiveSite site;
         private ExtensionType disturbanceType;
+        private float reduction;
 
         //---------------------------------------------------------------------
 
@@ -20,7 +22,8 @@ namespace Landis.Library.UniversalCohorts
         /// </summary>
         public ICohort Cohort
         {
-            get {
+            get
+            {
                 return cohort;
             }
         }
@@ -32,7 +35,8 @@ namespace Landis.Library.UniversalCohorts
         /// </summary>
         public ActiveSite Site
         {
-            get {
+            get
+            {
                 return site;
             }
         }
@@ -47,7 +51,8 @@ namespace Landis.Library.UniversalCohorts
         /// </remarks>
         public ExtensionType DisturbanceType
         {
-            get {
+            get
+            {
                 return disturbanceType;
             }
         }
@@ -55,15 +60,28 @@ namespace Landis.Library.UniversalCohorts
         //---------------------------------------------------------------------
 
         /// <summary>
+        /// The type of disturbance that killed the cohort.
+        /// </summary>
+        public float Reduction
+        {
+            get
+            {
+                return reduction;
+            }
+        }
+        //---------------------------------------------------------------------
+
+        /// <summary>
         /// Initializes a new instance.
         /// </summary>
-        public DeathEventArgs(ICohort          cohort,
-                              ActiveSite       site,
-                              ExtensionType disturbanceType)
+        public PartialDeathEventArgs(ICohort cohort,
+                              ActiveSite site,
+                              ExtensionType disturbanceType, float reduction)
         {
             this.cohort = cohort;
             this.site = site;
             this.disturbanceType = disturbanceType;
+            this.reduction = reduction;
         }
     }
 }

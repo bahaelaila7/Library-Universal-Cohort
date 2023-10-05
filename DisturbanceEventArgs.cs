@@ -1,29 +1,17 @@
+//  Authors:  Robert M. Scheller, James B. Domingo
+
 using Landis.Core;
 using Landis.SpatialModeling;
 
 namespace Landis.Library.UniversalCohorts
 {
     /// <summary>
-    /// Information about a cohort's death.
+    /// Information about a disturbance event at a site.
     /// </summary>
-    public class DeathEventArgs
-        : System.EventArgs
+    public class DisturbanceEventArgs
     {
-        private ICohort cohort;
         private ActiveSite site;
         private ExtensionType disturbanceType;
-
-        //---------------------------------------------------------------------
-
-        /// <summary>
-        /// The cohort that died.
-        /// </summary>
-        public ICohort Cohort
-        {
-            get {
-                return cohort;
-            }
-        }
 
         //---------------------------------------------------------------------
 
@@ -42,9 +30,6 @@ namespace Landis.Library.UniversalCohorts
         /// <summary>
         /// The type of disturbance that killed the cohort.
         /// </summary>
-        /// <remarks>
-        /// null if the cohort died during the growth phase of succession.
-        /// </remarks>
         public ExtensionType DisturbanceType
         {
             get {
@@ -57,11 +42,9 @@ namespace Landis.Library.UniversalCohorts
         /// <summary>
         /// Initializes a new instance.
         /// </summary>
-        public DeathEventArgs(ICohort          cohort,
-                              ActiveSite       site,
-                              ExtensionType disturbanceType)
+        public DisturbanceEventArgs(ActiveSite site,
+                                    ExtensionType disturbanceType)
         {
-            this.cohort = cohort;
             this.site = site;
             this.disturbanceType = disturbanceType;
         }

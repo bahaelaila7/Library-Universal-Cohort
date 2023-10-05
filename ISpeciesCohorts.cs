@@ -6,9 +6,8 @@ namespace Landis.Library.UniversalCohorts
     /// <summary>
     /// The cohorts for a particular species at a site.
     /// </summary>
-    public interface ISpeciesCohorts<TCohort>
-        : IEnumerable<TCohort>
-        where TCohort : ICohort
+    public interface ISpeciesCohorts
+        : IEnumerable<ICohort>
     {
         /// <summary>
         /// The number of cohorts in the collection.
