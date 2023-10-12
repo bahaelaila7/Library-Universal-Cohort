@@ -4,6 +4,7 @@ using Landis.Core;
 using Landis.SpatialModeling;
 using System.Collections;
 using System.Collections.Generic;
+using System.Dynamic;
 using System.Reflection;
 using System;
 
@@ -246,7 +247,7 @@ namespace Landis.Library.UniversalCohorts
         /// Adds a new cohort for a particular species.
         /// </summary>
 
-        public void AddNewCohort(ISpecies species, ushort age, int initialBiomass)
+        public void AddNewCohort(ISpecies species, ushort age, int initialBiomass, ExpandoObject additionalParameters)
         {
             //if (isDebugEnabled)
             //    log.DebugFormat("  add cohort: {0}, initial biomass = {1}; site biomass = {2}",
@@ -259,7 +260,7 @@ namespace Landis.Library.UniversalCohorts
                 SpeciesCohorts speciesCohorts = cohorts[i];
                 if (speciesCohorts.Species == species)
                 {
-                    speciesCohorts.AddNewCohort(age, initialBiomass);
+                    speciesCohorts.AddNewCohort(age, initialBiomass, additionalParameters);
                     speciesPresent = true;
                     break;
                 }
@@ -267,7 +268,7 @@ namespace Landis.Library.UniversalCohorts
 
             if (!speciesPresent)
             {
-                cohorts.Add(new SpeciesCohorts(species, age, initialBiomass));
+                cohorts.Add(new SpeciesCohorts(species, age, initialBiomass, additionalParameters));
             }
 
         }
@@ -277,7 +278,7 @@ namespace Landis.Library.UniversalCohorts
         /// Adds a new cohort for a particular species.
         /// </summary>
 
-        public void AddNewCohort(ISpecies species, ushort age, int initialBiomass, int initialANPP)
+        public void AddNewCohort(ISpecies species, ushort age, int initialBiomass, int initialANPP, ExpandoObject additionalParameters)
         {
             //if (isDebugEnabled)
             //    log.DebugFormat("  add cohort: {0}, initial biomass = {1}; site biomass = {2}",
@@ -291,7 +292,7 @@ namespace Landis.Library.UniversalCohorts
                 if (speciesCohorts.Species == species)
                 {
                     //speciesCohorts.AddNewCohort(age, initialBiomass);
-                    speciesCohorts.AddNewCohort(age, initialBiomass, initialANPP);
+                    speciesCohorts.AddNewCohort(age, initialBiomass, initialANPP, additionalParameters);
                     speciesPresent = true;
                     break;
                 }
@@ -299,7 +300,7 @@ namespace Landis.Library.UniversalCohorts
 
             if (!speciesPresent)
             {
-                cohorts.Add(new SpeciesCohorts(species, age, initialBiomass, initialANPP));
+                cohorts.Add(new SpeciesCohorts(species, age, initialBiomass, initialANPP, additionalParameters));
             }
 
         }

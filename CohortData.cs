@@ -39,12 +39,14 @@ namespace Landis.Library.UniversalCohorts
         /// The cohort's biomass.
         /// </param>
         public CohortData(ushort age,
-                          int biomass)
+                          int biomass,
+                          ExpandoObject parametersToAdd)
         {
             this.Age = age;
             this.Biomass = biomass;
             this.ANPP = biomass;
             this.AdditionalParameters = new ExpandoObject();
+            AddAdditionalCohortParameters(parametersToAdd);
         }
         //---------------------------------------------------------------------
         /// <summary>
@@ -57,20 +59,39 @@ namespace Landis.Library.UniversalCohorts
         /// The cohort's biomass.
         /// </param>
         public CohortData(ushort age,
-                          int biomass, int ANPP)
+                          int biomass, int ANPP,
+                          ExpandoObject parametersToAdd)
         {
             this.Age = age;
             this.Biomass = biomass;
             this.ANPP = ANPP;
             this.AdditionalParameters = new ExpandoObject();
+            AddAdditionalCohortParameters(parametersToAdd);
         }
+        //---------------------------------------------------------------------
 
-        public CohortData(CohortData data)
+        public CohortData(CohortData data, ExpandoObject parametersToAdd)
         {
             this.Age = data.Age;
             this.Biomass = data.Biomass;
             this.ANPP = data.ANPP;
-            this.AdditionalParameters = data.AdditionalParameters;
+            this.AdditionalParameters = new ExpandoObject();
+            AddAdditionalCohortParameters(parametersToAdd);
         }
+        //---------------------------------------------------------------------
+
+        /// <summary>
+        /// Called in every new cohorts to 
+        /// </summary>
+        public void AddAdditionalCohortParameters(ExpandoObject parametersToAdd)
+        {
+            IDictionary<string, object> tempObject = this.AdditionalParameters;
+
+            foreach (var parameter in parametersToAdd)
+            {
+                tempObject.Add(parameter.Key, parameter.Value);
+            }
+        }
+        //---------------------------------------------------------------------
     }
 }

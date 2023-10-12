@@ -85,11 +85,11 @@ namespace Landis.Library.UniversalCohorts
 
         public Cohort(ISpecies species,
                       ushort   age,
-                      int   biomass)
+                      int   biomass,
+                      ExpandoObject parametersToAdd)
         {
             this.species = species;
-            this.data = new CohortData(age, biomass);
-            this.data.AdditionalParameters = new ExpandoObject();
+            this.data = new CohortData(age, biomass, parametersToAdd);
         }
 
         //---------------------------------------------------------------------
@@ -97,20 +97,22 @@ namespace Landis.Library.UniversalCohorts
         public Cohort(ISpecies species,
                       ushort age,
                       int biomass,
-                      int anpp)
+                      int anpp,
+                      ExpandoObject parametersToAdd)
         {
             this.species = species;
-            this.data = new CohortData(age, biomass, anpp);
-            this.data.AdditionalParameters = new ExpandoObject();
+            this.data = new CohortData(age, biomass, anpp, parametersToAdd);
         }
 
         //---------------------------------------------------------------------
 
         public Cohort(ISpecies   species,
-                      CohortData cohortData)
+                      CohortData cohortData,
+                      ExpandoObject parametersToAdd)
         {
             this.species = species;
             this.data = cohortData;
+            this.data.AddAdditionalCohortParameters(parametersToAdd);
         }
 
         //---------------------------------------------------------------------
@@ -148,17 +150,8 @@ namespace Landis.Library.UniversalCohorts
             Percentage nonWoodyPercentage = Cohorts.BiomassCalculator.ComputeNonWoodyPercentage(this, site);
             return (int) (data.Biomass * nonWoodyPercentage);
         }
-
         //---------------------------------------------------------------------
 
-        /// <summary>
-        /// Call this to add additional 
-        /// </summary>
-        public void AddAdditionalCohortParameters(Dictionary<string, Dictionary<string, string>> additionalParameters)
-        {
-            // TODO: Implement
-        }
-        //---------------------------------------------------------------------
         /// <summary>
         /// Occurs when a cohort dies either due to senescence or biomass
         /// disturbances.

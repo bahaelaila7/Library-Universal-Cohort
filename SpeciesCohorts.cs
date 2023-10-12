@@ -7,6 +7,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Dynamic;
 using System.Reflection;
 
 using log4net;
@@ -62,7 +63,7 @@ namespace Landis.Library.UniversalCohorts
         public ICohort this[int index]
         {
             get {
-                return new Cohort(species, cohortData[index]);
+                return new Cohort(species, cohortData[index], cohortData[index].AdditionalParameters);
             }
         }
 
@@ -85,12 +86,13 @@ namespace Landis.Library.UniversalCohorts
         /// </summary>
         public SpeciesCohorts(ISpecies species,
                               ushort initialAge,
-                              int   initialBiomass)
+                              int   initialBiomass,
+                              ExpandoObject parametersToAdd)
         {
             this.species = species;
             this.cohortData = new List<CohortData>();
             this.isMaturePresent = false;
-            AddNewCohort(initialAge, initialBiomass);
+            AddNewCohort(initialAge, initialBiomass, parametersToAdd);
         }
         //---------------------------------------------------------------------
 
@@ -99,12 +101,13 @@ namespace Landis.Library.UniversalCohorts
         /// </summary>
         public SpeciesCohorts(ISpecies species,
                               ushort initialAge,
-                              int initialBiomass, int initialANPP)
+                              int initialBiomass, int initialANPP,
+                              ExpandoObject parametersToAdd)
         {
             this.species = species;
             this.cohortData = new List<CohortData>();
             this.isMaturePresent = false;
-            AddNewCohort(initialAge, initialBiomass, initialANPP);
+            AddNewCohort(initialAge, initialBiomass, initialANPP, parametersToAdd);
         }
         //---------------------------------------------------------------------
 
@@ -135,18 +138,18 @@ namespace Landis.Library.UniversalCohorts
         /// <summary>
         /// Adds a new cohort.
         /// </summary>
-        public void AddNewCohort(ushort age, int initialBiomass)
+        public void AddNewCohort(ushort age, int initialBiomass, ExpandoObject parametersToAdd)
         {
-            this.cohortData.Add(new CohortData(age, initialBiomass));
+            this.cohortData.Add(new CohortData(age, initialBiomass, parametersToAdd));
         }
 
         //---------------------------------------------------------------------
         /// <summary>
         /// Adds a new cohort.
         /// </summary>
-        public void AddNewCohort(ushort age, int initialBiomass, int initialANPP)
+        public void AddNewCohort(ushort age, int initialBiomass, int initialANPP, ExpandoObject parametersToAdd)
         {
-            this.cohortData.Add(new CohortData(age, initialBiomass, initialANPP));
+            this.cohortData.Add(new CohortData(age, initialBiomass, initialANPP, parametersToAdd));
         }
 
         //---------------------------------------------------------------------
@@ -185,12 +188,14 @@ namespace Landis.Library.UniversalCohorts
             int youngCount = 0;
             int totalBiomass = 0;
             int totalANPP = 0;
+            ExpandoObject extraParms = new ExpandoObject();
             for (int i = cohortData.Count - 1; i >= 0; i--) {
                 CohortData data = cohortData[i];
                 if (data.Age <= Cohorts.SuccessionTimeStep) {
                     youngCount++;
                     totalBiomass += data.Biomass;
                     totalANPP += data.ANPP;
+                    CombineAdditionalParameters(extraParms, data.AdditionalParameters);
                 }
                 else
                     break;
@@ -198,8 +203,14 @@ namespace Landis.Library.UniversalCohorts
 
             if (youngCount > 0) {
                 cohortData.RemoveRange(cohortData.Count - youngCount, youngCount);
-                cohortData.Add(new CohortData((ushort) (Cohorts.SuccessionTimeStep - 1),totalBiomass, totalANPP));
+                cohortData.Add(new CohortData((ushort) (Cohorts.SuccessionTimeStep - 1),totalBiomass, totalANPP, extraParms));
             }
+        }
+        //---------------------------------------------------------------------
+
+        private void CombineAdditionalParameters(ExpandoObject extraParms, ExpandoObject additionalParameters)
+        {
+            throw new NotImplementedException();
         }
 
         //---------------------------------------------------------------------
@@ -235,7 +246,7 @@ namespace Landis.Library.UniversalCohorts
             Debug.Assert(0 <= index && index <= cohortData.Count);
             Debug.Assert(site != null);
 
-            Cohort cohort = new Cohort(species, cohortData[index]);
+            Cohort cohort = new Cohort(species, cohortData[index], cohortData[index].AdditionalParameters);
             //Debug.Assert(cohort.Biomass <= siteBiomass);
 
             if (isDebugEnabled)
@@ -336,7 +347,7 @@ namespace Landis.Library.UniversalCohorts
             isMaturePresent = false;
             int totalReduction = 0;
             for (int i = cohortData.Count - 1; i >= 0; i--) {
-                Cohort cohort = new Cohort(species, cohortData[i]);
+                Cohort cohort = new Cohort(species, cohortData[i], cohortData[i].AdditionalParameters);
                 int reduction = disturbance.ReduceOrKillMarkedCohort(cohort);
                 //Console.WriteLine("  Reduction: {0}, {1} yrs, {2} Mg/ha, reduction={3}", cohort.Species.Name, cohort.Age, cohort.Biomass, reduction);
                 if (reduction > 0) {
@@ -454,7 +465,7 @@ namespace Landis.Library.UniversalCohorts
             int totalReduction = 0;
             for (int i = cohortData.Count - 1; i >= 0; i--) {
                 if (isSpeciesCohortDamaged[i]) {
-                    Cohort cohort = new Cohort(species, cohortData[i]);
+                    Cohort cohort = new Cohort(species, cohortData[i], cohortData[i].AdditionalParameters);
                     totalReduction += cohort.Biomass;
                     RemoveCohort(i, cohort, disturbance.CurrentSite,
                                  disturbance.Type);
@@ -474,7 +485,7 @@ namespace Landis.Library.UniversalCohorts
         {
             //Console.Out.WriteLine("Itor 1");
             foreach (CohortData data in cohortData)
-                yield return new Cohort(species, data);
+                yield return new Cohort(species, data, data.AdditionalParameters);
         }
 
         //---------------------------------------------------------------------
