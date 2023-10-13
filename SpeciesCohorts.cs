@@ -210,7 +210,70 @@ namespace Landis.Library.UniversalCohorts
 
         private void CombineAdditionalParameters(ExpandoObject extraParms, ExpandoObject additionalParameters)
         {
-            throw new NotImplementedException();
+            IDictionary<string, object> tempObject = extraParms;
+
+            foreach (var parameter in additionalParameters)
+            {
+                if (!tempObject.ContainsKey(parameter.Key))
+                {
+                    tempObject.Add(parameter.Key, parameter.Value);
+                }
+                else
+                {
+                    if (parameter.Value is sbyte)
+                    {
+                        tempObject[parameter.Key] = (sbyte)(tempObject[parameter.Key]) + (sbyte)(parameter.Value);
+                    }
+                    else if (parameter.Value is byte)
+                    {
+                        tempObject[parameter.Key] = (byte)(tempObject[parameter.Key]) + (byte)(parameter.Value);
+                    }
+                    else if (parameter.Value is short)
+                    {
+                        tempObject[parameter.Key] = (short)(tempObject[parameter.Key]) + (short)(parameter.Value);
+                    }
+                    else if (parameter.Value is ushort)
+                    {
+                        tempObject[parameter.Key] = (ushort)(tempObject[parameter.Key]) + (ushort)(parameter.Value);
+                    }
+                    else if (parameter.Value is int)
+                    {
+                        tempObject[parameter.Key] = (int)(tempObject[parameter.Key]) + (int)(parameter.Value);
+                    }
+                    else if (parameter.Value is uint)
+                    {
+                        tempObject[parameter.Key] = (uint)(tempObject[parameter.Key]) + (uint)(parameter.Value);
+                    }
+                    else if (parameter.Value is long)
+                    {
+                        tempObject[parameter.Key] = (long)(tempObject[parameter.Key]) + (long)(parameter.Value);
+                    }
+                    else if (parameter.Value is ulong)
+                    {
+                        tempObject[parameter.Key] = (ulong)(tempObject[parameter.Key]) + (ulong)(parameter.Value);
+                    }
+                    else if (parameter.Value is float)
+                    {
+                        tempObject[parameter.Key] = (float)(tempObject[parameter.Key]) + (float)(parameter.Value);
+                    }
+                    else if (parameter.Value is double)
+                    {
+                        tempObject[parameter.Key] = (double)(tempObject[parameter.Key]) + (double)(parameter.Value);
+                    }
+                    else if (parameter.Value is decimal)
+                    {
+                        tempObject[parameter.Key] = (decimal)(tempObject[parameter.Key]) + (decimal)(parameter.Value);
+                    }
+                    else if (parameter.Value is bool)
+                    {
+                        tempObject[parameter.Key] = (bool)(tempObject[parameter.Key]) || (bool)(parameter.Value);
+                    }
+                    else if (parameter.Value is char || parameter.Value is string)
+                    {
+                        tempObject[parameter.Key] = parameter.Value;
+                    }
+                }
+            }
         }
 
         //---------------------------------------------------------------------
