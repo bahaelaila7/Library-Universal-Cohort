@@ -1,5 +1,6 @@
 using Landis.Core;
 using System.Collections.Generic;
+using Landis.SpatialModeling;
 
 namespace Landis.Library.UniversalCohorts
 {
@@ -41,6 +42,12 @@ namespace Landis.Library.UniversalCohorts
 		/// Removes the cohorts which are damaged by a disturbance.
 		/// </summary>
 		void RemoveMarkedCohorts(ISpeciesCohortsDisturbance disturbance);
+		//---------------------------------------------------------------------
+
+		/// <summary>
+		/// Removes the cohorts which are damaged by a disturbance.
+		/// </summary>
+		void Grow(ActiveSite site, bool isSuccessionTimestep, bool annualTimestep);
 		//---------------------------------------------------------------------
 	}
 }

@@ -100,18 +100,19 @@ namespace Landis.Library.UniversalCohorts
         /// The total mortality (excluding annual leaf litter) for the current
         /// cohort.
         /// </returns>
-        public void GrowCurrentCohort(ActiveSite site)
-                                     //ref int    siteBiomass, 
-                                     //int        prevYearMortality)
+        public void GrowCurrentCohort(ActiveSite site,
+                                     //ref float    siteBiomass,
+                                     //int        prevYearMortality,
+                                     bool annualTimestep = false)
         {
-            if (! index.HasValue)
+            if (!index.HasValue)
                 throw NoCurrentCohortException();
 
             //int cohortMortality;
-            nextIndex = cohorts.GrowCohort(index.Value, site); //, ref siteBiomass, prevYearMortality, out cohortMortality);
-
+            nextIndex = cohorts.GrowCohort(index.Value, site, annualTimestep); //ref siteBiomass,
+                                                                               //prevYearMortality, out cohortMortality, annualTimestep);
             currentCohortDied = (nextIndex == index.Value);
-            return; // cohortMortality;
+            return;// cohortMortality;
         }
 
         //---------------------------------------------------------------------

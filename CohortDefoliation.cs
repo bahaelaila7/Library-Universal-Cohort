@@ -5,9 +5,11 @@ using Landis.SpatialModeling;
 using Landis.Utilities;
 
 
-
 namespace Landis.Library.UniversalCohorts
 {
+    /// <summary>
+    /// Defoliation of a cohort
+    /// </summary>
     public class CohortDefoliation
     {
         /// <summary>
@@ -16,12 +18,13 @@ namespace Landis.Library.UniversalCohorts
         public static class Delegates
         {
             /// <summary>
-            /// A method to compute how much a cohort is defoliated at a
+            /// A method to compute the proportion of foliage that is lost due to a disturbance
             /// site.
             /// </summary>
-            public delegate double Compute(ICohort    cohort,
-                                           ActiveSite site,
-                                           int        siteBiomass);
+            public delegate double Compute(ActiveSite site,
+                                           ISpecies species,
+                                           int cohortBiomass,
+                                           int siteBiomass);
         }
 
         //---------------------------------------------------------------------
@@ -38,9 +41,11 @@ namespace Landis.Library.UniversalCohorts
             /// <returns>
             /// 0%
             /// </returns>
-            public static double Compute(ICohort    cohort,
-                                         ActiveSite site,
-                                         int        siteBiomass)
+            public static double Compute(ActiveSite site,
+                                         ISpecies species,
+                                         int cohortBiomass,
+                                         int siteBiomass)
+
             {
                 return 0.0;
             }
@@ -57,11 +62,13 @@ namespace Landis.Library.UniversalCohorts
         /// </summary>
         public static Delegates.Compute Compute
         {
-            get {
+            get
+            {
                 return computeMethod;
             }
 
-            set {
+            set
+            {
                 Require.ArgumentNotNull(value);
                 computeMethod = value;
             }

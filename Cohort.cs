@@ -209,5 +209,10 @@ namespace Landis.Library.UniversalCohorts
             if (AgeOnlyDeathEvent != null)
                 AgeOnlyDeathEvent(sender, new DeathEventArgs(cohort, site, disturbanceType));
         }
+
+        public void ChangeParameters(ExpandoObject additionalParams)
+        {
+            this.Data.ChangeParameters(additionalParams);
+        }
     }
 }

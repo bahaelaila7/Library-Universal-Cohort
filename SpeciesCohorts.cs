@@ -288,23 +288,17 @@ namespace Landis.Library.UniversalCohorts
         /// <param name="site">
         /// The site where the species' cohorts are located.
         /// </param>
-        /// <param name="siteBiomass">
-        /// The total biomass at the site.  This parameter is changed by the
-        /// same amount as the current cohort's biomass.
+        /// <param name="annualTimestep">
+        /// Whether or not this timestep is a new year
         /// </param>
-        /// <param name="prevYearSiteMortality">
-        /// The total mortality at the site during the previous year.
-        /// </param>
-        /// <param name="cohortMortality">
-        /// The total mortality (excluding annual leaf litter) for the current
-        /// cohort.
         /// </param>
         /// <returns>
         /// The index of the next younger cohort.  Note this may be the same
         /// as the index passed in if that cohort dies due to senescence.
         /// </returns>
-        public int GrowCohort(int        index,
-                              ActiveSite site)
+        public int GrowCohort(int index,
+                              ActiveSite site,
+                              bool annualTimestep = false)
         {
             Debug.Assert(0 <= index && index <= cohortData.Count);
             Debug.Assert(site != null);
@@ -322,13 +316,19 @@ namespace Landis.Library.UniversalCohorts
                 return index;
             }
 
-            cohort.IncrementAge();
+            if (annualTimestep)
+                cohort.IncrementAge();
 
-            int biomassChange = (int)Cohorts.BiomassCalculator.ComputeChange(cohort, site); //, siteBiomass, prevYearSiteMortality);
+            ExpandoObject otherChanges = new ExpandoObject();
+
+            int biomassChange = (int)Cohorts.BiomassCalculator.ComputeChange(cohort, site, out otherChanges); //, siteBiomass, prevYearSiteMortality);
 
             Debug.Assert(-(cohort.Biomass) <= biomassChange);  // Cohort can't loss more biomass than it has
 
             cohort.ChangeBiomass(biomassChange);
+            cohort.ChangeParameters(otherChanges);
+
+            IDictionary<string, object> tempObject = cohort.AdditionalParameters;
 
             //if (isDebugEnabled)
             //    log.DebugFormat("    biomass: change = {0}, cohort = {1}, site = {2}",
@@ -338,6 +338,19 @@ namespace Landis.Library.UniversalCohorts
             if (cohort.Biomass > 0) {
                 cohortData[index] = cohort.Data;
                 return index + 1;
+            }
+            else if (tempObject.ContainsKey("WoodBiomass") && tempObject.ContainsKey("LeafBiomass"))
+            {
+                if ((float)tempObject["WoodBiomass"] + (float)tempObject["LeafBiomass"] > 0)
+                {
+                    cohortData[index] = cohort.Data;
+                    return index + 1;
+                }
+                else
+                {
+                    RemoveCohort(index, cohort, site, null);
+                    return index;
+                }
             }
             else {
                 RemoveCohort(index, cohort, site, null);

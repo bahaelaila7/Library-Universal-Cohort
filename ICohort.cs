@@ -1,5 +1,6 @@
 using Landis.Core;
 using Landis.SpatialModeling;
+using System.Dynamic;
 
 namespace Landis.Library.UniversalCohorts
 {
@@ -43,6 +44,8 @@ namespace Landis.Library.UniversalCohorts
         void ChangeANPP(int anpp);
         //---------------------------------------------------------------------
         void ChangeBiomass(int delta);
+        //---------------------------------------------------------------------
+        void ChangeParameters(ExpandoObject additionalParams);
         //---------------------------------------------------------------------
     }
 }

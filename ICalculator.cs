@@ -3,6 +3,7 @@
 using Landis.Core;
 using Landis.SpatialModeling;
 using Landis.Utilities;
+using System.Dynamic;
 
 namespace Landis.Library.UniversalCohorts
 {
@@ -16,7 +17,7 @@ namespace Landis.Library.UniversalCohorts
         //---------------------------------------------------------------------
 
         /// <summary>
-        /// Computes the change in an individual cohort's biomass due to annual
+        /// Computes the change in an individual cohort's parameters due to annual
         /// growth and mortality.
         /// </summary>
         /// <param name="cohort">
@@ -25,15 +26,16 @@ namespace Landis.Library.UniversalCohorts
         /// <param name="site">
         /// The site where the cohort is located.
         /// </param>
-        /// <param name="siteBiomass">
-        /// The total biomass at the site.
+        /// <param name="otherChanges">
+        /// Object containing the changes for additional parameters from the extension and their changes
         /// </param>
-        /// <param name="prevYearSiteMortality">
-        /// The total mortality at the site during the previous year.
-        /// </param>
+        /// /// <returns>
+        /// The change in biomass
+        /// </returns>
 
-        int ComputeChange(ICohort cohort,
-                          ActiveSite site);
+        double ComputeChange(ICohort cohort,
+                          ActiveSite site,
+                          out ExpandoObject otherChanges);
 
         //---------------------------------------------------------------------
 
@@ -48,6 +50,6 @@ namespace Landis.Library.UniversalCohorts
         /// </param>
         Percentage ComputeNonWoodyPercentage(ICohort    cohort,
                                              ActiveSite site);
-                                             
+
     }
 }

@@ -81,6 +81,106 @@ namespace Landis.Library.UniversalCohorts
         /// age is the succession timestep and whose biomass is the sum of all
         /// the biomasses of the young cohorts.
         /// </param>
+        public void Grow(ActiveSite site,
+                         bool isSuccessionTimestep,
+                         bool annualTimestep)
+        {
+            if (isSuccessionTimestep && Cohorts.SuccessionTimeStep > 1)
+                foreach (SpeciesCohorts speciesCohorts in cohorts)
+                    speciesCohorts.CombineYoungCohorts();
+
+            GrowFor1Year(site, annualTimestep);
+        }
+        //---------------------------------------------------------------------
+
+        /// <summary>
+        /// Grows all the cohorts by advancing their ages by 1 year and
+        /// updating their biomasses accordingly.
+        /// </summary>
+        /// <param name="site">
+        /// The site where the cohorts are located.
+        /// </param>
+        private void GrowFor1Year(ActiveSite site, bool annualTimestep)
+        {
+            if (isDebugEnabled)
+                log.DebugFormat("site {0}: grow cohorts for 1 year",
+                                site.Location);
+
+            //  Create a list of iterators, one iterator per set of species
+            //  cohorts.  Iterators go through a species' cohorts from oldest
+            //  to youngest.  The list is sorted by age, oldest to youngest;
+            //  so the first iterator in the list is the iterator's whose
+            //  current cohort has the oldest age.
+            List<OldToYoungIterator> itors = new List<OldToYoungIterator>();
+            foreach (SpeciesCohorts speciesCohorts in cohorts)
+            {
+                OldToYoungIterator itor = speciesCohorts.OldToYoung;
+                InsertIterator(itor, itors);
+            }
+
+
+            //  Loop through iterators until they're exhausted
+            while (itors.Count > 0)
+            {
+                //  Grow the current cohort of the first iterator in the list.
+                //  The cohort's biomass is updated for 1 year's worth of
+                //  growth and mortality.
+                OldToYoungIterator itor = itors[0];
+                itor.GrowCurrentCohort(site, annualTimestep);
+
+                if (itor.MoveNext())
+                {
+                    //  Iterator has been moved to the next cohort, so see if
+                    //  the age of this cohort is the oldest.
+                    if (itors.Count > 1 && itor.Age < itors[1].Age)
+                    {
+                        //  Pop the first iterator of the list, and then re-
+                        //  insert it into proper place.
+                        itors.RemoveAt(0);
+                        InsertIterator(itor, itors);
+                    }
+                }
+                else
+                {
+                    //  Iterator has no more cohorts, so remove it from list.
+                    itors.RemoveAt(0);
+
+                    if (itor.SpeciesCohorts.Count > 0)
+                        itor.SpeciesCohorts.UpdateMaturePresent();
+                    else
+                    {
+                        //  The set of species cohorts is now empty, so remove
+                        //  it from the list of species cohorts.
+                        for (int i = 0; i < cohorts.Count; i++)
+                        {
+                            if (cohorts[i] == itor.SpeciesCohorts)
+                            {
+                                cohorts.RemoveAt(i);
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+
+        }
+
+        //---------------------------------------------------------------------
+
+        /// <summary>
+        /// Grows all the cohorts for a year, updating their biomasses
+        /// accordingly.
+        /// </summary>
+        /// <param name="site">
+        /// The site where the cohorts are located.
+        /// </param>
+        /// <param name="isSuccessionTimestep">
+        /// Indicates whether the current timestep is a succession timestep.
+        /// If so, then all young cohorts (i.e., those whose ages are less than
+        /// the succession timestep) are combined into a single cohort whose
+        /// age is the succession timestep and whose biomass is the sum of all
+        /// the biomasses of the young cohorts.
+        /// </param>
         public void Grow(ActiveSite site, bool isSuccessionTimestep)
         {
             //Console.WriteLine("successionTimestep ={0}. Cohort timestep ={1}", successionTimestep, Cohorts.SuccessionTimeStep);
