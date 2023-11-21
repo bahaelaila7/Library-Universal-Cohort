@@ -339,19 +339,6 @@ namespace Landis.Library.UniversalCohorts
                 cohortData[index] = cohort.Data;
                 return index + 1;
             }
-            else if (tempObject.ContainsKey("WoodBiomass") && tempObject.ContainsKey("LeafBiomass"))
-            {
-                if ((float)tempObject["WoodBiomass"] + (float)tempObject["LeafBiomass"] > 0)
-                {
-                    cohortData[index] = cohort.Data;
-                    return index + 1;
-                }
-                else
-                {
-                    RemoveCohort(index, cohort, site, null);
-                    return index;
-                }
-            }
             else {
                 RemoveCohort(index, cohort, site, null);
                 return index;

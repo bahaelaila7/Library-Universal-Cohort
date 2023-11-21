@@ -15,8 +15,33 @@ namespace Landis.Library.UniversalCohorts
     public class Cohort
         : ICohort
     {
+        public static class Delegates
+        {
+            public delegate CohortData ComputeCohortData(ushort age, int biomass, int anpp, ExpandoObject parametersToAdd);
+        }
+
         private ISpecies species;
         private CohortData data;
+        private static Delegates.ComputeCohortData computeCohortData = null;
+
+        //---------------------------------------------------------------------
+
+        /// <summary>
+        /// The method that this class uses to add new young cohort for a
+        /// particular species at a site.
+        /// </summary>
+        public static Delegates.ComputeCohortData ComputeCohortData
+        {
+            get
+            {
+                return computeCohortData;
+            }
+            set
+            {
+                Require.ArgumentNotNull(value);
+                computeCohortData = value;
+            }
+        }
 
         //---------------------------------------------------------------------
 
@@ -89,7 +114,15 @@ namespace Landis.Library.UniversalCohorts
                       ExpandoObject parametersToAdd)
         {
             this.species = species;
-            this.data = new CohortData(age, biomass, parametersToAdd);
+
+            if (computeCohortData != null)
+            {
+                this.data = computeCohortData(age, biomass, biomass, parametersToAdd);
+            }
+            else
+            {
+                this.data = new CohortData(age, biomass, parametersToAdd);
+            }
         }
 
         //---------------------------------------------------------------------
@@ -101,7 +134,15 @@ namespace Landis.Library.UniversalCohorts
                       ExpandoObject parametersToAdd)
         {
             this.species = species;
-            this.data = new CohortData(age, biomass, anpp, parametersToAdd);
+
+            if (computeCohortData != null)
+            {
+                this.data = computeCohortData(age, biomass, anpp, parametersToAdd);
+            }
+            else
+            {
+                this.data = new CohortData(age, biomass, anpp, parametersToAdd);
+            }
         }
 
         //---------------------------------------------------------------------
@@ -111,8 +152,15 @@ namespace Landis.Library.UniversalCohorts
                       ExpandoObject parametersToAdd)
         {
             this.species = species;
-            this.data = cohortData;
-            this.data.AddAdditionalCohortParameters(parametersToAdd);
+
+            if (computeCohortData != null)
+            {
+                this.data = computeCohortData(cohortData.Age, cohortData.Biomass, cohortData.ANPP, parametersToAdd);
+            }
+            else
+            {
+                this.data = cohortData;
+            }
         }
 
         //---------------------------------------------------------------------

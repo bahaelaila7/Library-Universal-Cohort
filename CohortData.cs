@@ -45,8 +45,7 @@ namespace Landis.Library.UniversalCohorts
             this.Age = age;
             this.Biomass = biomass;
             this.ANPP = biomass;
-            this.AdditionalParameters = new ExpandoObject();
-            AddAdditionalCohortParameters(parametersToAdd);
+            this.AdditionalParameters = parametersToAdd;
         }
         //---------------------------------------------------------------------
         /// <summary>
@@ -65,8 +64,7 @@ namespace Landis.Library.UniversalCohorts
             this.Age = age;
             this.Biomass = biomass;
             this.ANPP = ANPP;
-            this.AdditionalParameters = new ExpandoObject();
-            AddAdditionalCohortParameters(parametersToAdd);
+            this.AdditionalParameters = parametersToAdd;
         }
         //---------------------------------------------------------------------
 
@@ -75,8 +73,7 @@ namespace Landis.Library.UniversalCohorts
             this.Age = data.Age;
             this.Biomass = data.Biomass;
             this.ANPP = data.ANPP;
-            this.AdditionalParameters = new ExpandoObject();
-            AddAdditionalCohortParameters(parametersToAdd);
+            this.AdditionalParameters = parametersToAdd;
         }
         //---------------------------------------------------------------------
 
@@ -85,11 +82,18 @@ namespace Landis.Library.UniversalCohorts
         /// </summary>
         public void AddAdditionalCohortParameters(ExpandoObject parametersToAdd)
         {
+            if (this.AdditionalParameters == null)
+            {
+                this.AdditionalParameters = new ExpandoObject();
+            }
             IDictionary<string, object> tempObject = this.AdditionalParameters;
 
             foreach (var parameter in parametersToAdd)
             {
-                tempObject.Add(parameter.Key, parameter.Value);
+                if (!tempObject.ContainsKey(parameter.Key))
+                {
+                    tempObject.Add(parameter.Key, parameter.Value);
+                }
             }
         }
         //---------------------------------------------------------------------
@@ -108,55 +112,59 @@ namespace Landis.Library.UniversalCohorts
                 {
                     if (parameter.Value is sbyte)
                     {
-                        tempObject[parameter.Key] = (sbyte)(tempObject[parameter.Key]) + (sbyte)(parameter.Value);
+                        tempObject[parameter.Key] = System.Convert.ToSByte(tempObject[parameter.Key]) + System.Convert.ToSByte(parameter.Value);
                     }
                     else if (parameter.Value is byte)
                     {
-                        tempObject[parameter.Key] = (byte)(tempObject[parameter.Key]) + (byte)(parameter.Value);
+                        tempObject[parameter.Key] = System.Convert.ToByte(tempObject[parameter.Key]) + System.Convert.ToByte(parameter.Value);
                     }
                     else if (parameter.Value is short)
                     {
-                        tempObject[parameter.Key] = (short)(tempObject[parameter.Key]) + (short)(parameter.Value);
+                        tempObject[parameter.Key] = System.Convert.ToInt16(tempObject[parameter.Key]) + System.Convert.ToInt16(parameter.Value);
                     }
                     else if (parameter.Value is ushort)
                     {
-                        tempObject[parameter.Key] = (ushort)(tempObject[parameter.Key]) + (ushort)(parameter.Value);
+                        tempObject[parameter.Key] = System.Convert.ToUInt16(tempObject[parameter.Key]) + System.Convert.ToUInt16(parameter.Value);
                     }
                     else if (parameter.Value is int)
                     {
-                        tempObject[parameter.Key] = (int)(tempObject[parameter.Key]) + (int)(parameter.Value);
+                        tempObject[parameter.Key] = System.Convert.ToInt32(tempObject[parameter.Key]) + System.Convert.ToInt32(parameter.Value);
                     }
                     else if (parameter.Value is uint)
                     {
-                        tempObject[parameter.Key] = (uint)(tempObject[parameter.Key]) + (uint)(parameter.Value);
+                        tempObject[parameter.Key] = System.Convert.ToUInt32(tempObject[parameter.Key]) + System.Convert.ToUInt32(parameter.Value);
                     }
                     else if (parameter.Value is long)
                     {
-                        tempObject[parameter.Key] = (long)(tempObject[parameter.Key]) + (long)(parameter.Value);
+                        tempObject[parameter.Key] = System.Convert.ToInt64(tempObject[parameter.Key]) + System.Convert.ToInt64(parameter.Value);
                     }
                     else if (parameter.Value is ulong)
                     {
-                        tempObject[parameter.Key] = (ulong)(tempObject[parameter.Key]) + (ulong)(parameter.Value);
+                        tempObject[parameter.Key] = System.Convert.ToUInt64(tempObject[parameter.Key]) + System.Convert.ToUInt64(parameter.Value);
                     }
                     else if (parameter.Value is float)
                     {
-                        tempObject[parameter.Key] = (float)(tempObject[parameter.Key]) + (float)(parameter.Value);
+                        tempObject[parameter.Key] = System.Convert.ToSingle(tempObject[parameter.Key]) + System.Convert.ToSingle(parameter.Value);
                     }
                     else if (parameter.Value is double)
                     {
-                        tempObject[parameter.Key] = (double)(tempObject[parameter.Key]) + (double)(parameter.Value);
+                        tempObject[parameter.Key] =  System.Convert.ToDouble(tempObject[parameter.Key]) + System.Convert.ToDouble(parameter.Value);
                     }
                     else if (parameter.Value is decimal)
                     {
-                        tempObject[parameter.Key] = (decimal)(tempObject[parameter.Key]) + (decimal)(parameter.Value);
+                        tempObject[parameter.Key] = System.Convert.ToDecimal(tempObject[parameter.Key]) + System.Convert.ToDecimal(parameter.Value);
                     }
                     else if (parameter.Value is bool)
                     {
-                        tempObject[parameter.Key] = (bool)(tempObject[parameter.Key]) || (bool)(parameter.Value);
+                        tempObject[parameter.Key] = System.Convert.ToBoolean(tempObject[parameter.Key]) | System.Convert.ToBoolean(parameter.Value);
                     }
-                    else if (parameter.Value is char || parameter.Value is string)
+                    else if (parameter.Value is char)
                     {
-                        tempObject[parameter.Key] = parameter.Value;
+                        tempObject[parameter.Key] = System.Convert.ToChar(parameter.Value);
+                    }
+                    else if (parameter.Value is string)
+                    {
+                        tempObject[parameter.Key] = System.Convert.ToString(parameter.Value);
                     }
                 }
             }
