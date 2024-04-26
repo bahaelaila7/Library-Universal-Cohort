@@ -328,8 +328,6 @@ namespace Landis.Library.UniversalCohorts
             cohort.ChangeBiomass(biomassChange);
             cohort.ChangeParameters(otherChanges);
 
-            IDictionary<string, object> tempObject = cohort.AdditionalParameters;
-
             //if (isDebugEnabled)
             //    log.DebugFormat("    biomass: change = {0}, cohort = {1}, site = {2}",
             //                    biomassChange, cohort.Biomass, siteBiomass);

@@ -27,8 +27,9 @@ namespace Landis.Library.UniversalCohorts
         public int ANPP;
         //---------------------------------------------------------------------
 
-        public ExpandoObject AdditionalParameters;
+        private ExpandoObject additionalParameters;
         //---------------------------------------------------------------------
+
         /// <summary>
         /// Initializes a new instance.
         /// </summary>
@@ -45,8 +46,24 @@ namespace Landis.Library.UniversalCohorts
             this.Age = age;
             this.Biomass = biomass;
             this.ANPP = biomass;
-            this.AdditionalParameters = parametersToAdd;
+            this.additionalParameters = parametersToAdd;
         }
+        //---------------------------------------------------------------------
+
+        public dynamic AdditionalParameters
+        {
+            get
+            {
+                dynamic addParm = additionalParameters;
+                return addParm;
+            }
+            set
+            {
+                dynamic addParm = additionalParameters;
+                addParm = value;
+            }
+        }
+
         //---------------------------------------------------------------------
         /// <summary>
         /// Initializes a new instance.
@@ -64,7 +81,7 @@ namespace Landis.Library.UniversalCohorts
             this.Age = age;
             this.Biomass = biomass;
             this.ANPP = ANPP;
-            this.AdditionalParameters = parametersToAdd;
+            this.additionalParameters = parametersToAdd;
         }
         //---------------------------------------------------------------------
 
@@ -73,7 +90,7 @@ namespace Landis.Library.UniversalCohorts
             this.Age = data.Age;
             this.Biomass = data.Biomass;
             this.ANPP = data.ANPP;
-            this.AdditionalParameters = parametersToAdd;
+            this.additionalParameters = parametersToAdd;
         }
         //---------------------------------------------------------------------
 
