@@ -290,7 +290,7 @@ namespace Landis.Library.UniversalCohorts
 
         //---------------------------------------------------------------------
 
-        public int ReduceOrKillBiomassCohorts(IDisturbance disturbance)
+        public int ReduceOrKillCohorts(IDisturbance disturbance)
         {
             int totalReduction = 0;
             //  Go through list of species cohorts from back to front so that
@@ -308,20 +308,13 @@ namespace Landis.Library.UniversalCohorts
 
         public void RemoveMarkedCohorts(ICohortDisturbance disturbance)
         {
-            if (AgeOnlyDisturbanceEvent != null)
-                AgeOnlyDisturbanceEvent(this, new DisturbanceEventArgs(disturbance.CurrentSite,
-                                                                       disturbance.Type));
-            ReduceOrKillBiomassCohorts(new WrappedDisturbance(disturbance));
+            ReduceOrKillCohorts(disturbance);
         }
 
         //---------------------------------------------------------------------
 
         public void RemoveMarkedCohorts(ISpeciesCohortsDisturbance disturbance)
         {
-            if (AgeOnlyDisturbanceEvent != null)
-                AgeOnlyDisturbanceEvent(this, new DisturbanceEventArgs(disturbance.CurrentSite,
-                                                                       disturbance.Type));
-
             //  Go through list of species cohorts from back to front so that
             //  a removal does not mess up the loop.
             int totalReduction = 0;
@@ -333,13 +326,6 @@ namespace Landis.Library.UniversalCohorts
             }
             //totalBiomass -= totalReduction;
         }
-
-        //---------------------------------------------------------------------
-
-        /// <summary>
-        /// Occurs when a site is disturbed by an age-only disturbance.
-        /// </summary>
-        public static event DisturbanceEventHandler AgeOnlyDisturbanceEvent;
 
         //---------------------------------------------------------------------
 

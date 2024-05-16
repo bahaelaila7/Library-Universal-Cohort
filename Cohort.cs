@@ -204,37 +204,20 @@ namespace Landis.Library.UniversalCohorts
         /// Occurs when a cohort dies either due to senescence or biomass
         /// disturbances.
         /// </summary>
-        public static event DeathEventHandler<DeathEventArgs> DeathEvent;
+        public static event MortalityEventHandler<MortalityEventArgs> MortalityEvent;
         //---------------------------------------------------------------------
-        public static event PartialDeathEventHandler<PartialDeathEventArgs> PartialDeathEvent;
-        //---------------------------------------------------------------------
-
 
         /// <summary>
         /// Raises a Cohort.DeathEvent if partial mortality.
         /// </summary>
-        public static void PartialMortality(object sender,
+        public static void CohortMortality(object sender,
                                 ICohort cohort,
                                 ActiveSite site,
                                 ExtensionType disturbanceType,
                                 float reduction)
         {
-            if (PartialDeathEvent != null)
-                PartialDeathEvent(sender, new PartialDeathEventArgs(cohort, site, disturbanceType, reduction));
-        }
-
-        //---------------------------------------------------------------------
-
-        /// <summary>
-        /// Raises a Cohort.DeathEvent.
-        /// </summary>
-        public static void Died(object     sender,
-                                ICohort    cohort,
-                                ActiveSite site,
-                                ExtensionType disturbanceType)
-        {
-            if (DeathEvent != null)
-                DeathEvent(sender, new DeathEventArgs(cohort, site, disturbanceType));
+            if (MortalityEvent != null)
+                MortalityEvent(sender, new MortalityEventArgs(cohort, site, disturbanceType, reduction));
         }
 
         //---------------------------------------------------------------------

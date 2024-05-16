@@ -8,7 +8,7 @@ namespace Landis.Library.UniversalCohorts
     /// <summary>
     /// Information about a cohort's death.
     /// </summary>
-    public class PartialDeathEventArgs
+    public class MortalityEventArgs
     {
         private ICohort cohort;
         private ActiveSite site;
@@ -74,7 +74,7 @@ namespace Landis.Library.UniversalCohorts
         /// <summary>
         /// Initializes a new instance.
         /// </summary>
-        public PartialDeathEventArgs(ICohort cohort,
+        public MortalityEventArgs(ICohort cohort,
                               ActiveSite site,
                               ExtensionType disturbanceType, float reduction)
         {

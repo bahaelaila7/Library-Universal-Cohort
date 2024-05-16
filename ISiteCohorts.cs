@@ -31,7 +31,7 @@ namespace Landis.Library.UniversalCohorts
 		/// <returns>
 		/// The total of all the cohorts' biomass reductions.
 		/// </returns>
-		int ReduceOrKillBiomassCohorts(IDisturbance disturbance);
+		int ReduceOrKillCohorts(IDisturbance disturbance);
 		//---------------------------------------------------------------------
 		/// <summary>
 		/// Removes the cohorts which are damaged by a disturbance.

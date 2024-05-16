@@ -362,7 +362,7 @@ namespace Landis.Library.UniversalCohorts
                                             : "UNKNOWN");
 
             cohortData.RemoveAt(index);
-            Cohort.Died(this, cohort, site, disturbanceType);
+            Cohort.CohortMortality(this, cohort, site, disturbanceType, 1);
         }
 
         //---------------------------------------------------------------------
@@ -371,7 +371,7 @@ namespace Landis.Library.UniversalCohorts
                           ActiveSite site,
                           ExtensionType disturbanceType, float reduction)
         {
-            Cohort.PartialMortality(this, cohort, site, disturbanceType, reduction);
+            Cohort.CohortMortality(this, cohort, site, disturbanceType, reduction);
         }
         //---------------------------------------------------------------------
 
