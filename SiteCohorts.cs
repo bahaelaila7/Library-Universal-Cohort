@@ -308,6 +308,9 @@ namespace Landis.Library.UniversalCohorts
 
         public void RemoveMarkedCohorts(ICohortDisturbance disturbance)
         {
+            if (DisturbanceEvent != null)
+                DisturbanceEvent(this, new DisturbanceEventArgs(disturbance.CurrentSite,
+                                                                       disturbance.Type));
             ReduceOrKillCohorts(disturbance);
         }
 
@@ -315,6 +318,10 @@ namespace Landis.Library.UniversalCohorts
 
         public void RemoveMarkedCohorts(ISpeciesCohortsDisturbance disturbance)
         {
+            if (DisturbanceEvent != null)
+                DisturbanceEvent(this, new DisturbanceEventArgs(disturbance.CurrentSite,
+                                                                       disturbance.Type));
+
             //  Go through list of species cohorts from back to front so that
             //  a removal does not mess up the loop.
             int totalReduction = 0;
@@ -326,6 +333,13 @@ namespace Landis.Library.UniversalCohorts
             }
             //totalBiomass -= totalReduction;
         }
+
+        //---------------------------------------------------------------------
+
+        /// <summary>
+        /// Occurs when a site experiences a disturbance.
+        /// </summary>
+        public static event DisturbanceEventHandler DisturbanceEvent;
 
         //---------------------------------------------------------------------
 
