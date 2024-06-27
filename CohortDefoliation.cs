@@ -1,9 +1,7 @@
 //  Authors:  Robert M. Scheller, James B. Domingo
-
 using Landis.Core;
 using Landis.SpatialModeling;
 using Landis.Utilities;
-
 
 namespace Landis.Library.UniversalCohorts
 {
@@ -22,7 +20,7 @@ namespace Landis.Library.UniversalCohorts
             /// site.
             /// </summary>
             public delegate double Compute(ActiveSite site,
-                                           ISpecies species,
+                                           ICohort cohort,
                                            int cohortBiomass,
                                            int siteBiomass);
         }
@@ -42,7 +40,7 @@ namespace Landis.Library.UniversalCohorts
             /// 0%
             /// </returns>
             public static double Compute(ActiveSite site,
-                                         ISpecies species,
+                                         ICohort cohort,
                                          int cohortBiomass,
                                          int siteBiomass)
 
