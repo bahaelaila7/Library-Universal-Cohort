@@ -8,21 +8,8 @@ namespace Landis.Library.UniversalCohorts
 	/// All the cohorts at a site.
 	/// </summary>
 	public interface ISiteCohorts
-		: IEnumerable<ISpeciesCohorts>
-	{
-		/// <summary>
-		/// Gets the cohorts for a particular species.
-		/// </summary>
-		ISpeciesCohorts this[ISpecies species]
-		{
-			get;
-		}
-		//---------------------------------------------------------------------
-		/// <summary>
-		/// Is at least one sexually mature cohort present for a particular
-		/// species?
-		/// </summary>
-		bool IsMaturePresent(ISpecies species);
+		: IISiteCohorts<ISpeciesCohorts>
+    {
 		//---------------------------------------------------------------------
 		/// <summary>
 		/// Computes who much a disturbance damages the cohorts by reducing
