@@ -321,12 +321,13 @@ namespace Landis.Library.UniversalCohorts
 
             ExpandoObject otherChanges = new ExpandoObject();
 
-            int biomassChange = (int)Cohorts.BiomassCalculator.ComputeChange(cohort, site, out otherChanges); //, siteBiomass, prevYearSiteMortality);
+            int biomassChange = (int)Cohorts.BiomassCalculator.ComputeChange(cohort, site, out int ANPP, out otherChanges); //, siteBiomass, prevYearSiteMortality);
 
             Debug.Assert(-(cohort.Biomass) <= biomassChange);  // Cohort can't loss more biomass than it has
 
             cohort.ChangeBiomass(biomassChange);
             cohort.ChangeParameters(otherChanges);
+            cohort.ChangeANPP(ANPP);
 
             //if (isDebugEnabled)
             //    log.DebugFormat("    biomass: change = {0}, cohort = {1}, site = {2}",
