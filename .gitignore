@@ -61,3 +61,7 @@ obj/universal-cohort.csproj.nuget.g.targets
 /bin/Release
 /obj/Debug
 /obj
+.vs/universal-cohort/DesignTimeBuild/.dtbcache
+.vs/universal-cohort/v16/.suo
+.vs/universal-cohort/v16/Server/sqlite3/db.lock
+.vs/universal-cohort/v16/Server/sqlite3/storage.ide
