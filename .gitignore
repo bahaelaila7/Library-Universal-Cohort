@@ -66,3 +66,7 @@ obj/universal-cohort.csproj.nuget.g.targets
 .vs/universal-cohort/v16/Server/sqlite3/db.lock
 .vs/universal-cohort/v16/Server/sqlite3/storage.ide
 universal-cohort.sln
+.vs/ProjectEvaluation/universal-cohort.metadata.v9.bin
+.vs/ProjectEvaluation/universal-cohort.projects.v9.bin
+.vs/ProjectEvaluation/universal-cohort.strings.v9.bin
+.vs/universal-cohort/v17/DocumentLayout.json
