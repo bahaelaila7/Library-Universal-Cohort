@@ -45,7 +45,7 @@ namespace Landis.Library.UniversalCohorts
         {
             this.Age = age;
             this.Biomass = biomass;
-            this.ANPP = biomass;
+            this.ANPP = 0;
             this.additionalParameters = parametersToAdd;
         }
         //---------------------------------------------------------------------
