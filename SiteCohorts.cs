@@ -380,6 +380,8 @@ namespace Landis.Library.UniversalCohorts
 
         public void AddNewCohort(ISpecies species, ushort age, int initialBiomass, int initialANPP, ExpandoObject additionalParameters)
         {
+            var clonedAdditionalParameters = DeepCopyExpandoObject(additionalParameters);
+
             //if (isDebugEnabled)
             //    log.DebugFormat("  add cohort: {0}, initial biomass = {1}; site biomass = {2}",
             //                    species.Name, initialBiomass, totalBiomass);
@@ -392,7 +394,7 @@ namespace Landis.Library.UniversalCohorts
                 if (speciesCohorts.Species == species)
                 {
                     //speciesCohorts.AddNewCohort(age, initialBiomass);
-                    speciesCohorts.AddNewCohort(age, initialBiomass, initialANPP, additionalParameters);
+                    speciesCohorts.AddNewCohort(age, initialBiomass, initialANPP, clonedAdditionalParameters);
                     speciesPresent = true;
                     break;
                 }
@@ -400,7 +402,7 @@ namespace Landis.Library.UniversalCohorts
 
             if (!speciesPresent)
             {
-                cohorts.Add(new SpeciesCohorts(species, age, initialBiomass, initialANPP, additionalParameters));
+                cohorts.Add(new SpeciesCohorts(species, age, initialBiomass, initialANPP, clonedAdditionalParameters));
             }
 
         }
@@ -415,6 +417,18 @@ namespace Landis.Library.UniversalCohorts
 
         //---------------------------------------------------------------------
 
+        private static ExpandoObject DeepCopyExpandoObject(ExpandoObject original)
+        {
+            var clone = new ExpandoObject();
+
+            var _original = (IDictionary<string, object>)original;
+            var _clone = (IDictionary<string, object>)clone;
+
+            foreach (var kvp in _original)
+                _clone.Add(kvp.Key, kvp.Value is ExpandoObject ? DeepCopyExpandoObject((ExpandoObject)kvp.Value) : kvp.Value);
+
+            return clone;
+        }
 
         public bool IsMaturePresent(ISpecies species)
         {
