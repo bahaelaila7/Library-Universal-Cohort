@@ -349,6 +349,8 @@ namespace Landis.Library.UniversalCohorts
 
         public void AddNewCohort(ISpecies species, ushort age, int initialBiomass, ExpandoObject additionalParameters)
         {
+            var clonedAdditionalParameters = DeepCopyExpandoObject(additionalParameters);
+
             //if (isDebugEnabled)
             //    log.DebugFormat("  add cohort: {0}, initial biomass = {1}; site biomass = {2}",
             //                    species.Name, initialBiomass, totalBiomass);
@@ -360,7 +362,7 @@ namespace Landis.Library.UniversalCohorts
                 SpeciesCohorts speciesCohorts = cohorts[i];
                 if (speciesCohorts.Species == species)
                 {
-                    speciesCohorts.AddNewCohort(age, initialBiomass, additionalParameters);
+                    speciesCohorts.AddNewCohort(age, initialBiomass, clonedAdditionalParameters);
                     speciesPresent = true;
                     break;
                 }
@@ -368,7 +370,7 @@ namespace Landis.Library.UniversalCohorts
 
             if (!speciesPresent)
             {
-                cohorts.Add(new SpeciesCohorts(species, age, initialBiomass, additionalParameters));
+                cohorts.Add(new SpeciesCohorts(species, age, initialBiomass, clonedAdditionalParameters));
             }
 
         }
