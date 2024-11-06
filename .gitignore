@@ -71,3 +71,5 @@ universal-cohort.sln
 .vs/ProjectEvaluation/universal-cohort.strings.v9.bin
 .vs/universal-cohort/v17/DocumentLayout.json
 .vs/universal-cohort/v17/DocumentLayout.backup.json
+.vs/universal-cohort/v16/Server/sqlite3/storage.ide-shm
+.vs/universal-cohort/v16/Server/sqlite3/storage.ide-wal
