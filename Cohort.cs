@@ -17,7 +17,7 @@ namespace Landis.Library.UniversalCohorts
     {
         public static class Delegates
         {
-            public delegate CohortData ComputeCohortData(ushort age, int biomass, int anpp, ExpandoObject parametersToAdd);
+            public delegate CohortData ComputeCohortData(ushort age, int biomass, double anpp, ExpandoObject parametersToAdd);
         }
 
         private ISpecies species;
@@ -85,7 +85,7 @@ namespace Landis.Library.UniversalCohorts
         }
 
         //---------------------------------------------------------------------
-        public int ANPP
+        public double ANPP
         {
             get
             {
@@ -187,7 +187,7 @@ namespace Landis.Library.UniversalCohorts
         /// <summary>
         /// Sets the cohort's ANPP.
         /// </summary>
-        public void ChangeANPP(int anpp)
+        public void ChangeANPP(double anpp)
         {
             data.ANPP = Math.Max(0, anpp);
         }

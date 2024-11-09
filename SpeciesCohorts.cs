@@ -101,7 +101,7 @@ namespace Landis.Library.UniversalCohorts
         /// </summary>
         public SpeciesCohorts(ISpecies species,
                               ushort initialAge,
-                              int initialBiomass, int initialANPP,
+                              int initialBiomass, double initialANPP,
                               ExpandoObject parametersToAdd)
         {
             this.species = species;
@@ -147,7 +147,7 @@ namespace Landis.Library.UniversalCohorts
         /// <summary>
         /// Adds a new cohort.
         /// </summary>
-        public void AddNewCohort(ushort age, int initialBiomass, int initialANPP, ExpandoObject parametersToAdd)
+        public void AddNewCohort(ushort age, int initialBiomass, double initialANPP, ExpandoObject parametersToAdd)
         {
             this.cohortData.Add(new CohortData(age, initialBiomass, initialANPP, parametersToAdd));
         }
@@ -187,7 +187,7 @@ namespace Landis.Library.UniversalCohorts
             //  young order.
             int youngCount = 0;
             int totalBiomass = 0;
-            int totalANPP = 0;
+            double totalANPP = 0;
             ExpandoObject extraParms = new ExpandoObject();
             for (int i = cohortData.Count - 1; i >= 0; i--) {
                 CohortData data = cohortData[i];
@@ -321,7 +321,7 @@ namespace Landis.Library.UniversalCohorts
 
             ExpandoObject otherChanges = new ExpandoObject();
 
-            int biomassChange = (int)Cohorts.BiomassCalculator.ComputeChange(cohort, site, out int ANPP, out otherChanges); //, siteBiomass, prevYearSiteMortality);
+            int biomassChange = (int)Cohorts.BiomassCalculator.ComputeChange(cohort, site, out double ANPP, out otherChanges); //, siteBiomass, prevYearSiteMortality);
 
             Debug.Assert(-(cohort.Biomass) <= biomassChange);  // Cohort can't loss more biomass than it has
 

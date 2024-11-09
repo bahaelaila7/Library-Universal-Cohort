@@ -35,7 +35,7 @@ namespace Landis.Library.UniversalCohorts
 
         double ComputeChange(ICohort cohort,
                           ActiveSite site,
-                          out int ANPP,
+                          out double ANPP,
                           out ExpandoObject otherChanges);
 
         //---------------------------------------------------------------------

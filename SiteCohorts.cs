@@ -380,7 +380,7 @@ namespace Landis.Library.UniversalCohorts
         /// Adds a new cohort for a particular species.
         /// </summary>
 
-        public void AddNewCohort(ISpecies species, ushort age, int initialBiomass, int initialANPP, ExpandoObject additionalParameters)
+        public void AddNewCohort(ISpecies species, ushort age, int initialBiomass, double initialANPP, ExpandoObject additionalParameters)
         {
             var clonedAdditionalParameters = DeepCopyExpandoObject(additionalParameters);
 

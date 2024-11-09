@@ -24,7 +24,7 @@ namespace Landis.Library.UniversalCohorts
         /// <summary>
         /// The cohort's annual NPP (g/m2).
         /// </summary>
-        public int ANPP;
+        public double ANPP;
         //---------------------------------------------------------------------
 
         private ExpandoObject additionalParameters;
@@ -75,7 +75,7 @@ namespace Landis.Library.UniversalCohorts
         /// The cohort's biomass.
         /// </param>
         public CohortData(ushort age,
-                          int biomass, int ANPP,
+                          int biomass, double ANPP,
                           ExpandoObject parametersToAdd)
         {
             this.Age = age;

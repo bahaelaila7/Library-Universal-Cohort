@@ -41,7 +41,7 @@ namespace Landis.Library.UniversalCohorts
         /// </summary>
         /// <param name="newForage"></param>
         /// <returns></returns>
-        void ChangeANPP(int anpp);
+        void ChangeANPP(double anpp);
         //---------------------------------------------------------------------
         void ChangeBiomass(int delta);
         //---------------------------------------------------------------------
