@@ -290,7 +290,7 @@ namespace Landis.Library.UniversalCohorts
 
         //---------------------------------------------------------------------
 
-        public int ReduceOrKillCohorts(IDisturbance disturbance)
+        public virtual int ReduceOrKillCohorts(IDisturbance disturbance)
         {
             int totalReduction = 0;
             //  Go through list of species cohorts from back to front so that
@@ -306,7 +306,7 @@ namespace Landis.Library.UniversalCohorts
         }
         //---------------------------------------------------------------------
 
-        public void RemoveMarkedCohorts(ICohortDisturbance disturbance)
+        public virtual void RemoveMarkedCohorts(ICohortDisturbance disturbance)
         {
             if (DisturbanceEvent != null)
                 DisturbanceEvent(this, new DisturbanceEventArgs(disturbance.CurrentSite,
@@ -316,7 +316,7 @@ namespace Landis.Library.UniversalCohorts
 
         //---------------------------------------------------------------------
 
-        public void RemoveMarkedCohorts(ISpeciesCohortsDisturbance disturbance)
+        public virtual void RemoveMarkedCohorts(ISpeciesCohortsDisturbance disturbance)
         {
             if (DisturbanceEvent != null)
                 DisturbanceEvent(this, new DisturbanceEventArgs(disturbance.CurrentSite,
@@ -446,7 +446,7 @@ namespace Landis.Library.UniversalCohorts
 
         //---------------------------------------------------------------------
 
-        public IEnumerator<ISpeciesCohorts> GetEnumerator()
+        public virtual IEnumerator<ISpeciesCohorts> GetEnumerator()
         {
             foreach (SpeciesCohorts speciesCohorts in cohorts)
                 yield return speciesCohorts;

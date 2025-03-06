@@ -124,6 +124,12 @@ namespace Landis.Library.UniversalCohorts
                 this.data = new CohortData(age, biomass, parametersToAdd);
             }
         }
+        //---------------------------------------------------------------------
+
+        public Cohort()
+        {
+
+        }
 
         //---------------------------------------------------------------------
 
