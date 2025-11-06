@@ -352,7 +352,7 @@ namespace Landis.Library.UniversalCohorts
                                   ExtensionType disturbanceType)
         {
             if (isDebugEnabled)
-                log.DebugFormat("  cohort removed: {0}, {1} yrs, {2} Mg/ha ({3})",
+                log.DebugFormat("  cohort removed: {0}, {1} yrs, {2} Mg/ha ({3}), reduction={4}",
                                 cohort.Species.Name, cohort.Data.Age, cohort.Data.Biomass,
                                 disturbanceType != null
                                     ? disturbanceType.Name
@@ -360,7 +360,7 @@ namespace Landis.Library.UniversalCohorts
                                         ? "senescence"
                                         : cohort.Data.Biomass == 0
                                             ? "attrition"
-                                            : "UNKNOWN");
+                                            : "UNKNOWN", 1);
 
             cohortData.RemoveAt(index);
             Cohort.CohortMortality(this, cohort, site, disturbanceType, 1);
@@ -372,6 +372,10 @@ namespace Landis.Library.UniversalCohorts
                           ActiveSite site,
                           ExtensionType disturbanceType, float reduction)
         {
+            if (isDebugEnabled)
+                log.DebugFormat("  cohort reduced: {0}, {1} yrs, {2} Mg/ha ({3}), reduction={4}",
+                                cohort.Species.Name, cohort.Data.Age, cohort.Data.Biomass,
+                                disturbanceType, reduction );
             Cohort.CohortMortality(this, cohort, site, disturbanceType, reduction);
         }
         //---------------------------------------------------------------------
@@ -411,8 +415,8 @@ namespace Landis.Library.UniversalCohorts
             for (int i = cohortData.Count - 1; i >= 0; i--) {
                 Cohort cohort = new Cohort(species, cohortData[i], cohortData[i].AdditionalParameters);
                 int reduction = disturbance.ReduceOrKillMarkedCohort(cohort);
-                //Console.WriteLine("  Reduction: {0}, {1} yrs, {2} Mg/ha, reduction={3}", cohort.Species.Name, cohort.Age, cohort.Biomass, reduction);
                 if (reduction > 0) {
+                    log.DebugFormat("  Disturb Reduction: {0}, {1} yrs, {2} Mg/ha, reduction={3}, partial={4}", cohort.Species.Name, cohort.Age, cohort.Biomass, reduction, reduction < cohort.Biomass);
                     totalReduction += reduction;
                     if (reduction < cohort.Biomass) {
                         ReduceCohort(cohort, disturbance.CurrentSite, disturbance.Type, reduction);
